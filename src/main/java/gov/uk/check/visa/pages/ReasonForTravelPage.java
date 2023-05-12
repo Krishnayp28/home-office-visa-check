@@ -1,0 +1,40 @@
+package gov.uk.check.visa.pages;
+
+import com.aventstack.extentreports.Status;
+import gov.uk.check.visa.customlisterners.CustomListeners;
+import gov.uk.check.visa.utility.Utility;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Reporter;
+
+import java.util.List;
+
+public class ReasonForTravelPage extends Utility {
+
+
+    @CacheLookup
+    @FindBy(xpath = "//div[@class='govuk-radios']//div//label")
+    List<WebElement> reasonList;
+
+    @CacheLookup
+    @FindBy(xpath = "//button[normalize-space()='Continue']")
+    WebElement clickContinue;
+
+    public void selectReasonForVisit(String reason) {
+        Reporter.log("Select a reason for visit: " + reasonList.toString());
+        for (WebElement rsnElement : reasonList) {
+            if (rsnElement.getText().contains(reason)) {
+                clickOnElement(rsnElement);
+                break;
+            }
+        }
+        CustomListeners.test.log(Status.PASS, "Select a reason for visit" + reasonList);
+    }
+
+    public void clickContinueButton() {
+        Reporter.log("Click on continue: " + clickContinue.toString());
+        clickOnElement(clickContinue);
+        CustomListeners.test.log(Status.PASS, "Click on continue" +clickContinue);
+    }
+}
